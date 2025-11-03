@@ -24,6 +24,10 @@ jobs:
       - name: Check Pods
         run: kubectl get pods -n default
       
+      - name: Wait for Pod to be Ready
+        run: |
+          kubectl wait --for=condition=ready pod -l name=mypod -n default --timeout=60s || true
+      
       - name: Get Pod Logs
-        run: kubectl logs -l name=mypod -n default --tail=50
+        run: kubectl logs -l name=mypod -n default --tail=50 || echo "No logs available yet"
 

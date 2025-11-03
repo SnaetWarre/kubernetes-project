@@ -1,0 +1,13 @@
+replicaCount: 2
+
+image:
+  repository: ghcr.io/USERNAME/hello-world-nginx
+  pullPolicy: Always
+  tag: "latest"
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 80
+  nodePort: 30080
+

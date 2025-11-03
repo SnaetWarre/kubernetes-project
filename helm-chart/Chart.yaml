@@ -1,0 +1,7 @@
+apiVersion: v2
+name: hello-world-app
+description: A Helm chart for Hello World nginx application
+type: application
+version: 0.1.0
+appVersion: "1.0"
+

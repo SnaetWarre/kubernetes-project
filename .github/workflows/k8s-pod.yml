@@ -1,0 +1,29 @@
+name: Kubernetes Deployment
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-pod:
+    runs-on: self-hosted
+    steps:
+      - name: Check out code repository
+        uses: actions/checkout@v4
+      
+      - name: Generate random pod name
+        id: pod-name
+        run: echo "name=mypod-${{ github.run_number }}-${{ github.run_id }}" >> $GITHUB_OUTPUT
+      
+      - name: Deploy Pod
+        run: |
+          sed "s/mypod-{ID}/${{ steps.pod-name.outputs.name }}/g" k8s/pod.yaml | kubectl apply -f -
+      
+      - name: Check Pods
+        run: kubectl get pods -n default
+      
+      - name: Get Pod Logs
+        run: kubectl logs -l name=mypod -n default --tail=50
+
